@@ -1,0 +1,1 @@
+./avx512_benchmark_runner

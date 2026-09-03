@@ -1,0 +1,23 @@
+# Сборочные директории
+build/
+bin/
+lib/
+*.so
+*.a
+*.o
+*.spv
+
+# Логи и телеметрия
+*.log
+/tmp/avx512_*
+flight_recorder_*.csv
+
+# Файлы IDE и редакторов
+.vscode/
+.idea/
+*.swp
+*~
+compile_commands.json
+.ninja_log
+.ninja_deps
+CMakeUserPresets.json

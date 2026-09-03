@@ -1,0 +1,22 @@
+mkdir -p ~/.local/share/vulkan/implicit_layer.d/
+
+cat << 'EOF' > ~/.local/share/vulkan/implicit_layer.d/VkLayer_AVX512_SuperRes.json
+{
+  "file_format_version": "1.0.0",
+  "layer": {
+    "name": "VK_LAYER_AVX512_SUPERRES",
+    "type": "GLOBAL",
+    "library_path": "/home/deb-vik/avx512_fsr_engine/build/libVkLayer_AVX512_SuperRes.so",
+    "api_version": "1.3.280",
+    "implementation_version": "2",
+    "description": "AVX-512 Heterogeneous Vector Coprocessor Layer",
+    "functions": {
+      "vkGetInstanceProcAddr": "AVX512_GetInstanceProcAddr",
+      "vkGetDeviceProcAddr": "AVX512_GetDeviceProcAddr"
+    },
+    "enable_environment": {
+      "ENABLE_AVX512_COPROCESSOR": "1"
+    }
+  }
+}
+EOF
