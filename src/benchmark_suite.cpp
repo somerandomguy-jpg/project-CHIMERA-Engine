@@ -1,3 +1,23 @@
+/*
+ * Project CHIMERA Engine: AVX-512 Heterogeneous Graphics & Vector Coprocessor
+ * Copyright (C) 2026 somerandomguy-jpg <https://github.com/somerandomguy-jpg>
+ *
+ * This file is part of Project CHIMERA Engine.
+ *
+ * Project CHIMERA Engine is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Project CHIMERA Engine is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Project CHIMERA Engine. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "benchmark_suite.hpp"
 #include "aligned_buffer.hpp"
 #include "hugetlb_allocator.hpp"
@@ -58,7 +78,9 @@ std::vector<BenchmarkResult> MicroBenchmarkSuite::run_all(int native_w, int nati
 }
 
 void MicroBenchmarkSuite::print_report(const std::vector<BenchmarkResult>& results) {
-    std::cout << "\n================================================ [MICRO-BENCHMARK REPORT] ================================================\n"
+    std::cout << "
+================================================ [MICRO-BENCHMARK REPORT] ================================================
+"
               << std::left << std::setw(46) << "Tiered Architecture Pipeline"
               << std::right << std::setw(11) << "Mean (ms)"
               << std::setw(11) << "Min (ms)"
@@ -66,7 +88,9 @@ void MicroBenchmarkSuite::print_report(const std::vector<BenchmarkResult>& resul
               << std::setw(11) << "P99 (ms)"
               << std::setw(12) << "FPS"
               << std::setw(14) << "GigaPix/s"
-              << "\n--------------------------------------------------------------------------------------------------------------------------\n";
+              << "
+--------------------------------------------------------------------------------------------------------------------------
+";
 
     for (const auto& r : results) {
         std::cout << std::left << std::setw(46) << r.name
@@ -77,18 +101,22 @@ void MicroBenchmarkSuite::print_report(const std::vector<BenchmarkResult>& resul
                   << std::setw(11) << (r.p99_us / 1000.0)
                   << std::setprecision(1) << std::setw(12) << r.fps
                   << std::setprecision(2) << std::setw(14) << r.throughput_gp_s
-                  << "\n";
+                  << "
+";
     }
-    std::cout << "==========================================================================================================================\n" << std::endl;
+    std::cout << "==========================================================================================================================
+" << std::endl;
 }
 
 void MicroBenchmarkSuite::export_csv(const std::vector<BenchmarkResult>& results, const std::string& filename) {
     std::ofstream ofs(filename);
     if (!ofs.is_open()) return;
-    ofs << "Kernel,SrcWidth,SrcHeight,DstWidth,DstHeight,Iterations,Mean_us,Min_us,Max_us,P50_us,P95_ms,P99_ms,FPS,Throughput_GPix_s\n";
+    ofs << "Kernel,SrcWidth,SrcHeight,DstWidth,DstHeight,Iterations,Mean_us,Min_us,Max_us,P50_us,P95_ms,P99_ms,FPS,Throughput_GPix_s
+";
     for (const auto& r : results) {
         ofs << "\"" << r.name << "\"," << r.src_w << "," << r.src_h << "," << r.dst_w << "," << r.dst_h << "," << r.iterations << ","
             << (r.mean_us / 1000.0) << "," << (r.min_us / 1000.0) << "," << (r.max_us / 1000.0) << "," << (r.p50_us / 1000.0) << ","
-            << (r.p95_us / 1000.0) << "," << (r.p99_us / 1000.0) << "," << r.fps << "," << r.throughput_gp_s << "\n";
+            << (r.p95_us / 1000.0) << "," << (r.p99_us / 1000.0) << "," << r.fps << "," << r.throughput_gp_s << "
+";
     }
 }

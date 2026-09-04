@@ -5,7 +5,9 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_BUILD_TYPE Release)
 
-# Cypress Cove ISA Flags
+# ================================================================================================
+# CYPRESS COVE (i5-11400) ARCHITECTURAL COMPILER FLAGS
+# ================================================================================================
 set(AVX512_FLAGS
     -march=rocketlake
     -mavx512f
@@ -28,6 +30,7 @@ set(AVX512_FLAGS
     -Wextra
     -Wno-unknown-pragmas
     -Wno-unused-parameter
+    -Wno-missing-field-initializers
 )
 
 add_compile_options(${AVX512_FLAGS})
@@ -35,10 +38,15 @@ add_link_options(-flto=auto -pthread)
 
 include_directories(include)
 
+# ================================================================================================
+# DEPENDENCY RESOLUTION (Vulkan, Threads, Windowing, X11 Compositing)
+# ================================================================================================
 find_package(Vulkan REQUIRED)
 find_package(Threads REQUIRED)
 
-# Shader Compilation
+# ================================================================================================
+# AUTOMATED SPIR-V SHADER COMPILATION
+# ================================================================================================
 find_program(GLSLC_EXECUTABLE glslc)
 if (GLSLC_EXECUTABLE)
     file(GLOB SHADER_SOURCES "shaders/*.vert" "shaders/*.frag")
@@ -56,14 +64,19 @@ if (GLSLC_EXECUTABLE)
     add_custom_target(CompileShaders ALL DEPENDS ${SPV_TARGETS})
 endif()
 
-# Collect all translation units in src/
-file(GLOB ALL_SOURCES "src/*.cpp")
+# ================================================================================================
+# DYNAMIC SOURCE FILE DISCOVERY (Tracks newly added .cpp files automatically)
+# ================================================================================================
+file(GLOB ALL_SOURCES CONFIGURE_DEPENDS "src/*.cpp")
 
+# Exclude standalone main entry points from core library set
 set(CORE_ENGINE_SOURCES ${ALL_SOURCES})
 list(FILTER CORE_ENGINE_SOURCES EXCLUDE REGEX ".*/main\\.cpp$")
 list(FILTER CORE_ENGINE_SOURCES EXCLUDE REGEX ".*/test_system2_suite\\.cpp$")
 
-# 1. Main Interactive Benchmark Runner
+# ================================================================================================
+# TARGET 1: MAIN PRESENTATION & NON-EUCLIDEAN BENCHMARK RUNNER
+# ================================================================================================
 add_executable(avx512_benchmark_runner
     src/main.cpp
     ${CORE_ENGINE_SOURCES}
@@ -83,7 +96,9 @@ if (GLSLC_EXECUTABLE)
     add_dependencies(avx512_benchmark_runner CompileShaders)
 endif()
 
-# 2. System 2 Coprocessor Suite Unit Test Binary
+# ================================================================================================
+# TARGET 2: SYSTEM 2 SILICON VALIDATION TEST SUITE
+# ================================================================================================
 add_executable(test_system2_suite
     src/test_system2_suite.cpp
     ${CORE_ENGINE_SOURCES}
@@ -100,12 +115,12 @@ target_link_libraries(test_system2_suite PRIVATE
     Xtst
 )
 
-# 3. In-Process Vulkan Layer Dynamic Library
+# ================================================================================================
+# TARGET 3: IN-PROCESS VULKAN LAYER (PROTON / STEAM OFF-LOAD HOOK)
+# ================================================================================================
 add_library(VkLayer_AVX512_SuperRes SHARED
     layer/src/libVkLayer_AVX512_SuperRes.cpp
-    src/thread_pool.cpp
-    src/avx512_kernel.cpp
-    src/system2_coprocessor_suite.cpp
+    ${CORE_ENGINE_SOURCES}
 )
 target_link_libraries(VkLayer_AVX512_SuperRes PRIVATE
     Vulkan::Vulkan

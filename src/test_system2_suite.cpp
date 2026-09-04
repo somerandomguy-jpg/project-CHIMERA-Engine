@@ -1,3 +1,23 @@
+/*
+ * Project CHIMERA Engine: AVX-512 Heterogeneous Graphics & Vector Coprocessor
+ * Copyright (C) 2026 somerandomguy-jpg <https://github.com/somerandomguy-jpg>
+ *
+ * This file is part of Project CHIMERA Engine.
+ *
+ * Project CHIMERA Engine is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Project CHIMERA Engine is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Project CHIMERA Engine. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include <functional>
 #include <vulkan/vulkan.h>
 #include "aligned_buffer.hpp"
@@ -55,10 +75,14 @@ static KernelProfileMetric profile_kernel(
 }
 
 int main() {
-    std::cout << "\033[1;36m"
-              << "========================================================================================================\n"
-              << "     SYSTEM 2 MULTI-THREADED COPROCESSOR SUITE (6-CORE MASTER-AS-WORKER-0 @ 4.20 GHz)           \n"
-              << "========================================================================================================\033[0m\n\n";
+    std::cout << "[1;36m"
+              << "========================================================================================================
+"
+              << "     SYSTEM 2 MULTI-THREADED COPROCESSOR SUITE (6-CORE MASTER-AS-WORKER-0 @ 4.20 GHz)           
+"
+              << "========================================================================================================[0m
+
+";
 
     CorePinnedThreadPool pool(6); // Master on Core 0, Workers on Cores 1..5
     const int iterations = 1000;
@@ -200,9 +224,10 @@ int main() {
     }));
 
     // --- OUTPUT PROFILE MATRIX ---
-    std::cout << "\033[1;32m"
-              << "=============================================== [6-CORE MULTI-THREADED PROFILE MATRIX] ===========================================\n"
-              << "\033[0m"
+    std::cout << "[1;32m"
+              << "=============================================== [6-CORE MULTI-THREADED PROFILE MATRIX] ===========================================
+"
+              << "[0m"
               << std::left << std::setw(42) << "Physical Kernel Architecture"
               << std::right << std::setw(11) << "Mean (us)"
               << std::setw(11) << "Min (us)"
@@ -210,7 +235,9 @@ int main() {
               << std::setw(11) << "P99 (us)"
               << std::setw(16) << "Throughput"
               << std::left << std::setw(30) << "   Hardware Config"
-              << "\n----------------------------------------------------------------------------------------------------------------------------------\n";
+              << "
+----------------------------------------------------------------------------------------------------------------------------------
+";
 
     double total_mt_suite_us = 0.0;
 
@@ -223,7 +250,8 @@ int main() {
                   << std::setw(11) << m.p99_us
                   << std::setprecision(1) << std::setw(11) << m.throughput_mops << " M/s"
                   << std::left << std::setw(30) << ("   " + m.config_notes)
-                  << "\n";
+                  << "
+";
 
         if (m.name.find("MT") != std::string::npos || m.name.find("K1") != std::string::npos || 
             m.name.find("K2") != std::string::npos || m.name.find("K3") != std::string::npos || 
@@ -232,19 +260,26 @@ int main() {
         }
     }
 
-    std::cout << "\033[1;32m"
-              << "==================================================================================================================================\n"
-              << "\033[0m";
+    std::cout << "[1;32m"
+              << "==================================================================================================================================
+"
+              << "[0m";
 
     double slack_60hz = (16666.6 - total_mt_suite_us) / 1000.0;
     double slack_144hz = (6944.4 - total_mt_suite_us) / 1000.0;
     double duty_60hz = (total_mt_suite_us / 16666.6) * 100.0;
     double duty_144hz = (total_mt_suite_us / 6944.4) * 100.0;
 
-    std::cout << "\n\033[1;33m[HOLISTIC SYSTEM 2 PIPELINE SUMMARY]\033[0m\n"
-              << "  • Total Combined 6-Core Coprocessor Pass : \033[1;32m" << std::fixed << std::setprecision(2) << total_mt_suite_us << " us (" << (total_mt_suite_us / 1000.0) << " ms)\033[0m\n"
-              << "  • 60Hz  Frame Budget Duty Cycle          : " << std::setprecision(1) << duty_60hz << "% (Slack: " << std::setprecision(2) << slack_60hz << " ms FREE)\n"
-              << "  • 144Hz Frame Budget Duty Cycle          : " << std::setprecision(1) << duty_144hz << "% (Slack: " << std::setprecision(2) << slack_144hz << " ms FREE)\n\n";
+    std::cout << "
+[1;33m[HOLISTIC SYSTEM 2 PIPELINE SUMMARY][0m
+"
+              << "  • Total Combined 6-Core Coprocessor Pass : [1;32m" << std::fixed << std::setprecision(2) << total_mt_suite_us << " us (" << (total_mt_suite_us / 1000.0) << " ms)[0m
+"
+              << "  • 60Hz  Frame Budget Duty Cycle          : " << std::setprecision(1) << duty_60hz << "% (Slack: " << std::setprecision(2) << slack_60hz << " ms FREE)
+"
+              << "  • 144Hz Frame Budget Duty Cycle          : " << std::setprecision(1) << duty_144hz << "% (Slack: " << std::setprecision(2) << slack_144hz << " ms FREE)
+
+";
 
     return 0;
 }

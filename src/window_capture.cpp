@@ -1,3 +1,23 @@
+/*
+ * Project CHIMERA Engine: AVX-512 Heterogeneous Graphics & Vector Coprocessor
+ * Copyright (C) 2026 somerandomguy-jpg <https://github.com/somerandomguy-jpg>
+ *
+ * This file is part of Project CHIMERA Engine.
+ *
+ * Project CHIMERA Engine is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Project CHIMERA Engine is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Project CHIMERA Engine. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "window_capture.hpp"
 #include <X11/Xatom.h>
 #include <X11/extensions/Xcomposite.h>
@@ -159,7 +179,9 @@ bool X11WindowCapture::find_target_window() {
                 if (is_target_tf2_window(windows[i])) {
                     target_window_ = windows[i];
                     XFree(data);
-                    std::cout << "\n\033[1;32m[X11 HOOK SUCCESS] Attached to " << found_title_ << "\033[0m\n" << std::endl;
+                    std::cout << "
+[1;32m[X11 HOOK SUCCESS] Attached to " << found_title_ << "[0m
+" << std::endl;
                     return true;
                 }
             }
