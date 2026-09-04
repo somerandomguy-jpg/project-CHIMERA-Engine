@@ -72,7 +72,7 @@ uint32_t VulkanRenderer::find_memory_type(uint32_t type_filter, VkMemoryProperty
 void VulkanRenderer::init_vulkan(GLFWwindow* window) {
     VkApplicationInfo app_info{};
     app_info.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
-    app_info.pApplicationName = "AVX-512 Total CPU Engine";
+    app_info.pApplicationName = "Project CHIMERA Engine";
     app_info.apiVersion = VK_API_VERSION_1_2;
 
     uint32_t glfw_ext_count = 0;
@@ -102,12 +102,13 @@ void VulkanRenderer::init_vulkan(GLFWwindow* window) {
         vkGetPhysicalDeviceProperties(device, &props);
         if (props.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU) {
             m_physical_device = device;
-            std::cout << "[INFO] Selected Discrete GPU: " << props.deviceName << "
-";
+            std::cout << "[INFO] Selected Discrete GPU: " << props.deviceName << "\n";
             break;
         }
     }
-    if (m_physical_device == VK_NULL_HANDLE) m_physical_device = devices[0];
+    if (m_physical_device == VK_NULL_HANDLE && !devices.empty()) {
+        m_physical_device = devices[0];
+    }
 
     float queue_priority = 1.0f;
     VkDeviceQueueCreateInfo queue_info{};
