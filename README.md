@@ -1,8 +1,6 @@
 # Project CHIMERA Engine
 
-
-
-
+![CHIMERA Engine Live Demo](docs/demo.gif)
 
 [![License: LGPL v3](https://img.shields.io/badge/License-LGPL_v3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0)
 [![ISA: AVX-512](https://img.shields.io/badge/ISA-AVX--512F%20%7C%20BW%20%7C%20DQ%20%7C%20VNNI%20%7C%20GFNI-red.svg)](https://en.wikipedia.org/wiki/AVX-512)
