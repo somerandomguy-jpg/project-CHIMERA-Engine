@@ -3,7 +3,7 @@
 [![License: LGPL v3](https://img.shields.io/badge/License-LGPL_v3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0)
 [![ISA: AVX-512](https://img.shields.io/badge/ISA-AVX--512F%20%7C%20BW%20%7C%20DQ%20%7C%20VNNI%20%7C%20GFNI-red.svg)](https://en.wikipedia.org/wiki/AVX-512)
 [![C++: 20](https://img.shields.io/badge/C%2B%2B-20-blue.svg)](https://isocpp.org/)
-[![Performance: 999 FPS]](benchmark.png)
+![Performance: 999 FPS](benchmark.png)
 
 **Project CHIMERA** is an open-source, sub-millisecond, heterogeneous vector graphics coprocessor and software rendering engine. It exploits 512-bit vector silicon on modern x86-64 CPUs to execute geometry transformations, occlusion culling, non-Euclidean lighting, Kajiya-Kay anisotropic fur/hair physics, volumetric radiative transfer, and neural super-resolution, offloading graphics workloads and turning the GPU into a zero-compute scanout display presenter.
 
